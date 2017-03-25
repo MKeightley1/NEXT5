@@ -13,7 +13,23 @@ $dom->loadHTML($homepage);
 $mango_div = $dom->getElementById('sideNavRacing');
 
 $ui_rows = $mango_div->getElementsByTagName('ul');
-echo get_inner_html($ui_rows->item(0));
+$li_rows = $mango_div->getElementsByTagName('li');
+
+$i = 0;
+ 
+
+ // print_r($li_rows[0]); 
+
+
+echo get_inner_html($li_rows->item(0));
+echo get_inner_html($li_rows->item(1));
+echo get_inner_html($li_rows->item(2));
+echo get_inner_html($li_rows->item(3));
+echo get_inner_html($li_rows->item(4));
+
+
+
+
  
 function get_inner_html( $node ) 
 {

@@ -3,11 +3,11 @@ function getData() {
     // The function returns the product of p1 and p2
 
 	var test_races = [
-		[1,"Tauranga", 1490409600],
-		[2,"Winton", 1490419900],
-		[3,"Auckland", 1490414800],
-		[4,"Tauranga", 1490404300],
-		[5,"Winton", 1490434800]
+		[1,"Tauranga", 1490411880],
+		[2,"Winton", 1490412120],
+		[3,"Auckland", 1490412180],
+		[4,"Tauranga", 1490412600],
+		[5,"Winton", 1490412840]
 		
 	];
 	return test_races;	
