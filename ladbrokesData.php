@@ -1,57 +1,47 @@
 <?php
 
-$homepage = file_get_contents('https://www.ladbrokes.com.au/racing/');
-//echo $homepage;
-
-// a new dom object
-$dom = new domDocument; 
-
-// load the html into the object
-$dom->loadHTML($homepage);
-
-//get element by id
-$mango_div = $dom->getElementById('sideNavRacing');
-
-$ui_rows = $mango_div->getElementsByTagName('ul');
-$li_rows = $mango_div->getElementsByTagName('li');
-
-$i = 0;
- 
-
- // print_r($li_rows[0]); 
 
 
-echo get_inner_html($li_rows->item(0));
-echo get_inner_html($li_rows->item(1));
-echo get_inner_html($li_rows->item(2));
-echo get_inner_html($li_rows->item(3));
-echo get_inner_html($li_rows->item(4));
+	function getData(){
+		$homepage = file_get_contents('https://www.ladbrokes.com.au/racing/');
+
+		// a new dom object
+		$dom = new domDocument; 
+
+		// load the html into the object
+		$dom->loadHTML($homepage);
+
+		//get element by id
+		$mango_div = $dom->getElementById('sideNavRacing');
+		$li_rows = $mango_div->getElementsByTagName('li');
+		$top5races = array();
+		$stack = array();
 
 
+		for( $i=0; $i<5;$i++){
+			$race = array();
+			//get a href tag element
+			$a = $li_rows[$i]->getElementsByTagName('a');
 
+			//get meeting
+			$meeting = $a->item(0)->nodeValue."   ";
+			$meeting = trim(preg_replace('/\s+/', ' ', $meeting));
+			//get link ref
+			$href= $a->item(0)->getAttribute('href')."   ";
 
- 
-function get_inner_html( $node ) 
-{
-    $innerHTML= '';
-    $children = $node->childNodes;
-     
-    foreach ($children as $child)
-    {
-        $innerHTML .= $child->ownerDocument->saveXML( $child );
-    }
-     
-    return $innerHTML;
-}
+			$abbr = $li_rows[$i]->getElementsByTagName('abbr');  
 
-
-if(!mango_div)
-{
-    die("Element not found");
-}
- 
-echo "element found";
-echo $ui_rows->node;
-//sideNavRacing
-
+			$time= $abbr->item(0)->getAttribute('time')."   ";
+			$suspend= $abbr->item(0)->getAttribute('suspend')."   ";
+			$race=[$i, $meeting,$href,$time,$suspend];
+			array_push($stack, $race);
+		}
+		
+		
+		return $stack;
+		
+	}
+	
+	$data = getData();
+	print_r($data);
 ?>
