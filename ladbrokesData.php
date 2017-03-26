@@ -17,8 +17,8 @@
 		$top5races = array();
 		$stack = array();
 
-
-		for( $i=0; $i<5;$i++){
+		//echo count($li_rows);
+		for( $i=0; $i<20;$i++){
 			$race = array();
 			//get a href tag element
 			$a = $li_rows[$i]->getElementsByTagName('a');
@@ -43,5 +43,5 @@
 	}
 	
 	$data = getData();
-	print_r($data);
+	echo json_encode($data);
 ?>
