@@ -45,7 +45,7 @@
 		<tr class="danger">
 		   <td>Race 5</td>
 		  <td>{{meeting5}}</td>
-		  <td>{{name}}</td>
+		  <td>{{race5}}</td>
 		</tr>
 	  </tbody>
 	</table> 
@@ -61,39 +61,51 @@
       data: { name: 'test world' }
     });
 	function setTimer(){
-		var test_races = [
-			[1,"xxx", 1490498900],
-			[2,"Winton", 1490488500],
-			[3,"Auckland", 1490488500],
-			[4,"Tauranga", 1490488500],
-			[5,"Winton", 1490488500]
-			
-		];
+		var test_races = new Array();
+		$.ajax({
+			type: 'GET',
+			url: 'ladbrokesData.php',
+			data: 'id=testdata',
+			cache: false,
+			success: function(result) {
+				//$('#content1').html(result[0]);
+				
+				test_races = jQuery.parseJSON(result);
+				for (var i = 0; i < test_races.length; i++) { 
+		
+					var raceId = "race"+test_races[i][0];
+					var meetingId = "meeting"+test_races[i][0];
+				
+					raceId = raceId.replace(/^\s+|\s+$/g,"");
+					 
+					var countDownDate = new Date(test_races[i][3]*1000).getTime();
+					//var countDownDate = new Date(1490489220*1000).getTime();
+					//get todays date
+					var now = new Date().getTime();
+					
+					// Find the distance between now an the count down date
+					var distance = countDownDate - now;
+
+					// Time calculations for days, hours, minutes and seconds
+					var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+					var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+					var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+					var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+					ractive.set( meetingId,test_races[i][1] );
+					ractive.set( raceId, days + "d " + hours + "h "+ minutes + "m " + seconds + "s ");	
+					ractive.set( 'name',test_races[i][3] );					
+				}
+				
+				
+				
+				
+				
+				
+			},
+		});	
 	
-		for (var i = 0; i < test_races.length; i++) { 
 		
-			var raceId = "race"+test_races[i][0];
-			var meetingId = "meeting"+test_races[i][0];
-		
-			raceId = raceId.replace(/^\s+|\s+$/g,"");
-			 
-			var countDownDate = new Date(test_races[i][2]*1000).getTime();
-			//var countDownDate = new Date(1490489220*1000).getTime();
-			//get todays date
-			var now = new Date().getTime();
-			
-			// Find the distance between now an the count down date
-			var distance = countDownDate - now;
-
-			// Time calculations for days, hours, minutes and seconds
-			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-			ractive.set( meetingId,test_races[i][1] );
-			ractive.set( raceId, days + "d " + hours + "h "+ minutes + "m " + seconds + "s ");		
-		}
 	
 	}
 	
@@ -102,27 +114,20 @@
 	
 	
 	
+		//sets inital array of data on load 
 		setTimer();
 		// ...then update it once a second
 		setInterval( function () {
+		/*	var race5 = new Date(ractive.get('race1'));
+			var now = new Date();
+		
+		if(race5>now){
+			ractive.set('race4',0);
+		}else{
+			ractive.set('race4','closed');
+		}*/
 		setTimer();
-		
-		
-	
-		$.ajax({
-		type: 'GET',
-		url: 'ladbrokesData.php',
-		data: 'id=testdata',
-		cache: false,
-		success: function(result) {
-			//$('#content1').html(result[0]);
-			
-			var duce = jQuery.parseJSON(result);
-			ractive.set( 'name',duce[0] );
-			
-		},
-	});	
-	
+
 		
 	 
 	}, 1000 );
