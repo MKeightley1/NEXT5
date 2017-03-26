@@ -82,19 +82,28 @@
 					//var countDownDate = new Date(1490489220*1000).getTime();
 					//get todays date
 					var now = new Date().getTime();
+				
+					
 					
 					// Find the distance between now an the count down date
 					var distance = countDownDate - now;
+					
+				
 
-					// Time calculations for days, hours, minutes and seconds
-					var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-					var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-					var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-					var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+						// Time calculations for days, hours, minutes and seconds
+						var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+						var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+						var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+						var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-					ractive.set( meetingId,test_races[i][1] );
-					ractive.set( raceId, days + "d " + hours + "h "+ minutes + "m " + seconds + "s ");	
-					ractive.set( 'name',test_races[i][3] );					
+						ractive.set( meetingId,test_races[i][1] );
+					if(distance>0){
+						ractive.set( raceId, days + "d " + hours + "h "+ minutes + "m " + seconds + "s ");	
+						ractive.set( 'name',test_races[i][3] );	
+					}else{
+						ractive.set( raceId, "Closed");	
+
+					}						
 				}
 				
 				

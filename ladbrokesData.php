@@ -13,13 +13,49 @@
 
 		//get element by id
 		$mango_div = $dom->getElementById('sideNavRacing');
+	
 		$li_rows = $mango_div->getElementsByTagName('li');
 		$top5races = array();
 		$stack = array();
-		$count = count($li_rows);
+		$counter = 0;
 	
-		$counter = 5;
-		$pos_counter = 0;
+		
+		
+		foreach ($li_rows as $li_row) {
+			//get a href tag element
+			$a = $li_row->getElementsByTagName('a');
+			//get meeting
+			$meeting = $a->item(0)->nodeValue."   ";
+			$meeting = trim(preg_replace('/\s+/', ' ', $meeting));
+			//get link ref
+			$href= $a->item(0)->getAttribute('href')."   ";
+			
+			$abbr = $li_row->getElementsByTagName('abbr');  
+
+			$time= $abbr->item(0)->getAttribute('time')."   ";
+			$suspend= $abbr->item(0)->getAttribute('suspend')."   ";
+			
+			if($suspend>=$nowtime){
+				//echo "meeting:".$meeting;
+				//echo "href:".$href;
+				//echo "time:".$time;
+				//echo "suspend:".$suspend."\n";
+				$race=[$counter,$meeting,$href,$time,$suspend];
+				array_push($stack, $race);
+			
+				
+			}
+			
+			if($counter==5){
+				break;
+			}else{
+				$counter++;
+			}
+		}
+		//print_r($stack);
+		
+		
+		/*
 		for( $i=0; $i<$counter;$i++){
 			$race = array();
 			//get a href tag element
@@ -38,16 +74,18 @@
 			
 			$nowtime = time();
 			
-			if($suspend>$nowtime){
-				$race=[$pos_counter, $meeting,$href,$time,$suspend];
+			if($suspend>=$nowtime){
+				$race=[ $meeting,$href,$time,$suspend];
 				array_push($stack, $race);
-				$pos_counter++;
+			
 				
 			}else{
 				$counter++;
 			}
 			
 		}
+		*/
+		
 		
 		return $stack;
 		
