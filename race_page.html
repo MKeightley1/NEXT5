@@ -2,7 +2,7 @@
 <html lang='en-GB'>
 <head>
   <meta charset='utf-8'>
-  <title>NEXT 5</title>
+  <title>Ractive test</title>
    <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    
@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <h1>NEXT 5</h1>
+  <h1>Ractive test</h1>
   <div id='container'></div>
   <script id='template' type='text/ractive'>
 	  <table class="table table-striped table-hover ">
@@ -23,51 +23,11 @@
 	  </thead>
 	  <tbody>
 		<tr>
-		  
-			<td>Race 1</td>
-			<td>
-				<a href={{url1}}>
-					{{meeting1}}
-				</a>
-			</td>
-			<td>{{race1}}</td>
+		  <td>Race 1</td>
+		  <td>{{meeting1}}</td>
+		  <td>{{race1}}</td>
 		</tr>
-		 <tr>
-		  <td>Race 2</td>
-			<td>
-				<a href={{url2}}>
-					{{meeting2}}
-				</a>
-			</td>
-		  <td>{{race2}}</td>
-		</tr>
-		<tr class="info">
-		  <td>Race 3</td>
-		  	<td>
-				<a href={{url3}}>
-					{{meeting3}}
-				</a>
-			</td>
-		  <td>{{race3}}</td>
-		</tr>
-		<tr class="success">
-		   <td>Race 4</td>
-		  	<td>
-				<a href={{url4}}>
-					{{meeting4}}
-				</a>
-			</td>
-		  <td>{{race4}}</td>
-		</tr>
-		<tr class="danger">
-		   <td>Race 5</td>
-		  	<td>
-				<a href={{url5}}>
-					{{meeting5}}
-				</a>
-			</td>
-		  <td>{{race5}}</td>
-		</tr>
+	
 	  </tbody>
 	</table> 
   </script>
@@ -96,7 +56,6 @@
 		
 					var raceId = "race"+test_races[i][0];
 					var meetingId = "meeting"+test_races[i][0];
-					var urlId = "url"+test_races[i][0];
 				
 					raceId = raceId.replace(/^\s+|\s+$/g,"");
 					 
@@ -119,13 +78,7 @@
 						var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 						ractive.set( meetingId,test_races[i][1] );
-						ractive.set( urlId,test_races[i][2] );
 					if(distance>0){
-					
-					
-					
-					
-					
 						ractive.set( raceId, days + "d " + hours + "h "+ minutes + "m " + seconds + "s ");	
 						ractive.set( 'name',test_races[i][3] );	
 					}else{
