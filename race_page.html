@@ -1,77 +1,82 @@
 <!doctype html>
+
+<!
+Notes:
+Purpose: USE AJAX and Jquery to retrieve url variable from url parameter and send a post requesto to a php file to retrieve race contenders.
+Then display contenders on pages in a table.
+	
+>
+
+
 <html lang='en-GB'>
-<head>
-  <meta charset='utf-8'>
-  <title>NEXT 5</title>
-   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   
-   <link rel="stylesheet" href="/bootstraptheme.css">
-</head>
+	<head>
+	  <meta charset='utf-8'>
+	  <title>NEXT 5</title>
+	   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+	   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	   
+	   <link rel="stylesheet" href="/bootstraptheme.css">
+	</head>
 
-<body>
-  <h1>NEXT 5</h1>
-  <div id='container'></div>
-  <script id='template' type='text/ractive'>
-	  <table class="table table-striped table-hover ">
-	  <thead>
-		<tr>
-		  <th>Race No.</th>
-		  <th>Race Meeting</th>
 
-		</tr>
-	  </thead>
-	  <tbody>
-	{{{content}}}
-		</tbody>
-	</table> 
-  </script>
+<!Notes:
+Used template designed ractive to insert values into into this table/html. The body script is generate by jquery as its an array and can be mutlple table entries.
+>
+	<body>
+		<h1>NEXT 5</h1>
+		<a href="/"><button  class="btn btn-primary">Back</button></a>
+  
+		<div id='container'></div>
+		<script id='template' type='text/ractive'>
+			<table class="table table-striped table-hover ">
+				<thead>
+					<tr>
+						<th>Entrant No.</th>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{{content}}}
+				</tbody>
+			</table> 
+		</script>
+  
+		<script>
+			/*
+				Used this script that reads in the url parameter and post request to the 2nd php script to retrieve the race details.
+			*/
 
-  
-  
-  
-  <script>
- 
-	
-	var test_races = new Array();
-	$.ajax({
-		type: 'GET',
-		url: 'getRaceData.php',
-		data: 'id=testdata',
-		cache: false,
-		success: function(result) {
-			//$('#content1').html(result[0]);
+			//recieve url parameter and creates a new website url
+			var races = new Array();
+			var query = window.location.search.substring(1);
+			var vars = query.split("=");
+			var url ='https://www.ladbrokes.com.au'+vars[1];
 			
-			test_races = jQuery.parseJSON(result);
-			var test_component = '';
-			for (var i = 0; i < test_races.length; i++) { 
-					var race = i+1;
-				  test_component +='<tr><td>Race '+race+'</td><td>'+test_races[i]+'</td></tr>';
-				   
-				   
-				   
-				   
-				   
-				   var ractive = new Ractive({
-						el: '#container',
-						template: '#template',
-						data: { 
-	  
-	  
-						content: test_component 
-	
-						}
-					});			
-			}	
-		}
-	});	
+			
+			$.ajax({
+				type: 'POST',
+				url: 'get_race_data.php',
+				data: {'url' : url},
+				success: function(result) {
+				
+				//send array to content tag in html
+					races = jQuery.parseJSON(result);
+					var component = '';
+					for (var i = 0; i < races.length; i++) { 
+						//creates position
+						var race = i+1;
+						 component +='<tr><td>'+race+'</td><td>'+races[i]+'</td></tr>';
 
-		
-	 
-	
-  </script>
-  
-  
-  
-</body>
+						var ractive = new Ractive({
+							el: '#container',
+							template: '#template',
+							data: { 
+								content: component 
+							}
+						});			
+					}	
+				}
+			});	
+		</script>
+	</body>
 </html>
