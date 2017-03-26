@@ -5,6 +5,7 @@
   <title>Ractive test</title>
    <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   
    <link rel="stylesheet" href="/bootstraptheme.css">
 </head>
 
@@ -44,7 +45,7 @@
 		<tr class="danger">
 		   <td>Race 5</td>
 		  <td>{{meeting5}}</td>
-		  <td>{{race5}}</td>
+		  <td>{{name}}</td>
 		</tr>
 	  </tbody>
 	</table> 
@@ -59,10 +60,7 @@
       template: '#template',
       data: { name: 'test world' }
     });
-	
-	// ...then update it once a second
-	setInterval( function () {
-	
+	function setTimer(){
 		var test_races = [
 			[1,"xxx", 1490498900],
 			[2,"Winton", 1490488500],
@@ -97,6 +95,35 @@
 			ractive.set( raceId, days + "d " + hours + "h "+ minutes + "m " + seconds + "s ");		
 		}
 	
+	}
+	
+	
+	
+	
+	
+	
+		setTimer();
+		// ...then update it once a second
+		setInterval( function () {
+		setTimer();
+		
+		
+	
+		$.ajax({
+		type: 'GET',
+		url: 'ladbrokesData.php',
+		data: 'id=testdata',
+		cache: false,
+		success: function(result) {
+			//$('#content1').html(result[0]);
+			
+			var duce = jQuery.parseJSON(result);
+			ractive.set( 'name',duce[0] );
+			
+		},
+	});	
+	
+		
 	 
 	}, 1000 );
   </script>

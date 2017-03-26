@@ -1,13 +1,17 @@
 
-function getData() {
-    // The function returns the product of p1 and p2
 
+
+function getData() {
+ 
+   
+   
+	var now = new Date().getTime();
 	var test_races = [
-		[1,"Tauranga", 1490411880],
-		[2,"Winton", 1490412120],
-		[3,"Auckland", 1490412180],
-		[4,"Tauranga", 1490412600],
-		[5,"Winton", 1490412840]
+		[1,"xxx", 1490483591],
+		[2,"Winton", 1490483591],
+		[3,"Auckland", 1490414800],
+		[4,"Tauranga", 1490404300],
+		[5,"Winton", 1490434800]
 		
 	];
 	return test_races;	
